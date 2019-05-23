@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.28803.352
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoanCalculatorWebApp", "LoanCalculatorWebApp\LoanCalculatorWebApp.csproj", "{BDB72B7E-D266-4BA3-BE3E-929EB8F03931}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoanCalculatorWebApp", "LoanCalculatorWebApp\LoanCalculatorWebApp.csproj", "{BDB72B7E-D266-4BA3-BE3E-929EB8F03931}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XUnitTestLoanCalculatorWebApp", "XUnitTestLoanCalculatorWebApp\XUnitTestLoanCalculatorWebApp.csproj", "{356EE113-8865-43AC-909E-E64257FD35E8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{BDB72B7E-D266-4BA3-BE3E-929EB8F03931}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BDB72B7E-D266-4BA3-BE3E-929EB8F03931}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BDB72B7E-D266-4BA3-BE3E-929EB8F03931}.Release|Any CPU.Build.0 = Release|Any CPU
+		{356EE113-8865-43AC-909E-E64257FD35E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{356EE113-8865-43AC-909E-E64257FD35E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{356EE113-8865-43AC-909E-E64257FD35E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{356EE113-8865-43AC-909E-E64257FD35E8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

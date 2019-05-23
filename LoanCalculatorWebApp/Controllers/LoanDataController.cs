@@ -18,13 +18,11 @@ namespace LoanCalculatorWebApp.Controllers
             _context = context;
         }
 
-        // GET: LoanData
         public async Task<IActionResult> Index()
         {
             return View(await _context.LoanData.ToListAsync().ConfigureAwait(false));
         }
 
-        // GET: LoanData/Details/5
         public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null)
@@ -42,18 +40,14 @@ namespace LoanCalculatorWebApp.Controllers
             return View(loanData);
         }
 
-        // GET: LoanData/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: LoanData/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,LoanAmount,LoanTerm,InterestRates,NameOfLoan,TotalCost,MonthlyBill")] LoanData loanData)
+        public async Task<IActionResult> Create(LoanData loanData)
         {
             if (ModelState.IsValid)
             {
@@ -66,7 +60,6 @@ namespace LoanCalculatorWebApp.Controllers
             return View(loanData);
         }
 
-        // GET: LoanData/Edit/5
         public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
@@ -82,12 +75,9 @@ namespace LoanCalculatorWebApp.Controllers
             return View(loanData);
         }
 
-        // POST: LoanData/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Id,LoanAmount,LoanTerm,InterestRates,NameOfLoan,TotalCost,MonthlyBill")] LoanData loanData)
+        public async Task<IActionResult> Edit(Guid id, LoanData loanData)
         {
             if (id != loanData.Id)
             {
@@ -118,7 +108,6 @@ namespace LoanCalculatorWebApp.Controllers
             return View(loanData);
         }
 
-        // GET: LoanData/Delete/5
         public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
@@ -136,7 +125,6 @@ namespace LoanCalculatorWebApp.Controllers
             return View(loanData);
         }
 
-        // POST: LoanData/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
@@ -167,7 +155,7 @@ namespace LoanCalculatorWebApp.Controllers
             return _context.LoanData.Any(e => e.Id == id);
         }
 
-        private void CalculateLoanData(LoanData loanData) {
+        private static void CalculateLoanData(LoanData loanData) {
             loanData.SetTotalCost();
             loanData.SetMonthlyBill();
         }
