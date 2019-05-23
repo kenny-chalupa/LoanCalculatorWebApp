@@ -17,9 +17,3 @@ steps:
   displayName: 'dotnet build $(buildConfiguration)'
 - script: dotnet restore
 
-- task: AzureWebApp@1
-  inputs:
-    appType: 'webApp'
-    appName: 
-    package: '$(System.DefaultWorkingDirectory)/**/*.zip'
-    deploymentMethod: 'auto'
