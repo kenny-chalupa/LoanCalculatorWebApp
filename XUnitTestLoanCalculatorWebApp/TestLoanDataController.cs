@@ -16,8 +16,8 @@ namespace XUnitTestLoanCalculatorWebApp
 {
     public class TestLoanDataController
     {
-        [STAThread]
-        static void Main() { }
+        //[STAThread]
+        //static void Main() { }
 
         private LoanDataController loanDataController;
 
