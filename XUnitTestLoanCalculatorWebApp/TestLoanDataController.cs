@@ -3,14 +3,12 @@ using Xunit;
 using LoanCalculatorWebApp.Controllers;
 using LoanCalculatorWebApp.Models;
 using Microsoft.EntityFrameworkCore;
-
-
 using Moq;
 using LoanCalculatorWebApp.Data;
 using System.Collections.Generic;
-using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Threading;
+using Microsoft.AspNetCore.Mvc;
 
 namespace XUnitTestLoanCalculatorWebApp
 {

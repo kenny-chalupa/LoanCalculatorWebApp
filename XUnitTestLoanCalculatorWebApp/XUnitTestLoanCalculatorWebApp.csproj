@@ -6,7 +6,7 @@
     <ApplicationIcon />
     <OutputType>Library</OutputType>
     <StartupObject />
-    <GenerateProgramFile>false</GenerateProgramFile>
+    <!--<GenerateProgramFile>false</GenerateProgramFile>-->
   </PropertyGroup>
 
   <ItemGroup>
