@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace LoanCalculatorWebApp.Migrations
 {
-    [DbContext(typeof(LoanDataContext))]
+    [DbContext(typeof(AppDataDbContext))]
     partial class LoanDataContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

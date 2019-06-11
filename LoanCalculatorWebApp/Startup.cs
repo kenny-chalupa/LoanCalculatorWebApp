@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using LoanCalculatorWebApp.Models;
+using LoanCalculatorWebApp.Data;
 
 namespace LoanCalculatorWebApp
 {
@@ -36,8 +37,11 @@ namespace LoanCalculatorWebApp
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-            services.AddDbContext<LoanDataContext>(options =>
+            services.AddDbContext<AppDataDbContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("LoanDataContext")));
+
+            services.AddScoped<IAppDataDbContext>(provider => provider.GetService<AppDataDbContext>());
+            services.AddScoped<IRepository<LoanData>, LoanDataRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -64,6 +68,16 @@ namespace LoanCalculatorWebApp
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            using (var serviceScope = app.ApplicationServices.CreateScope())
+            {
+                var context = serviceScope.ServiceProvider.GetService<AppDataDbContext>();
+                context.Database.Migrate();
+
+            }
+
         }
+
+
     }
 }

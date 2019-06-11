@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace LoanCalculatorWebApp.Migrations
 {
-    [DbContext(typeof(LoanDataContext))]
+    [DbContext(typeof(AppDataDbContext))]
     [Migration("20190521204257_InitialCreate")]
     partial class InitialCreate
     {

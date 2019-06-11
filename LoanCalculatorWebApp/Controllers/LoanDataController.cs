@@ -3,24 +3,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using LoanCalculatorWebApp.Models;
+using LoanCalculatorWebApp.Data;
 
 namespace LoanCalculatorWebApp.Controllers
 {
     public class LoanDataController : Controller
     {
-        private readonly LoanDataContext _context;
 
-        public LoanDataController(LoanDataContext context)
+        IRepository<LoanData> LoanDataRepo;
+
+        public LoanDataController(IRepository<LoanData> repository)
         {
-            _context = context;
+            LoanDataRepo = repository;
         }
 
         public async Task<IActionResult> Index()
         {
-            return View(await _context.LoanData.ToListAsync().ConfigureAwait(false));
+            var loanDataItems = await LoanDataRepo.GetAll().ConfigureAwait(false);
+            return View(loanDataItems);
         }
 
         public async Task<IActionResult> Details(Guid? id)
@@ -30,8 +32,8 @@ namespace LoanCalculatorWebApp.Controllers
                 return NotFound();
             }
 
-            var loanData = await _context.LoanData
-                .FirstOrDefaultAsync(m => m.Id == id).ConfigureAwait(false);
+            var loanData = await LoanDataRepo.FindById(id).ConfigureAwait(false);
+
             if (loanData == null)
             {
                 return NotFound();
@@ -53,8 +55,7 @@ namespace LoanCalculatorWebApp.Controllers
             {
                 loanData.Id = Guid.NewGuid();
                 CalculateLoanData(loanData);
-                _context.Add(loanData);
-                await _context.SaveChangesAsync().ConfigureAwait(false);
+                await LoanDataRepo.Add(loanData).ConfigureAwait(false);
                 return RedirectToAction(nameof(Index));
             }
             return View(loanData);
@@ -67,7 +68,8 @@ namespace LoanCalculatorWebApp.Controllers
                 return NotFound();
             }
 
-            var loanData = await _context.LoanData.FindAsync(id).ConfigureAwait(false);
+            var loanData = await LoanDataRepo.FindById(id).ConfigureAwait(false);
+
             if (loanData == null)
             {
                 return NotFound();
@@ -89,8 +91,7 @@ namespace LoanCalculatorWebApp.Controllers
                 try
                 {
                     CalculateLoanData(loanData);
-                    _context.Update(loanData);
-                    await _context.SaveChangesAsync().ConfigureAwait(false);
+                    await LoanDataRepo.Update(loanData).ConfigureAwait(false);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -115,8 +116,7 @@ namespace LoanCalculatorWebApp.Controllers
                 return NotFound();
             }
 
-            var loanData = await _context.LoanData
-                .FirstOrDefaultAsync(m => m.Id == id).ConfigureAwait(false);
+            var loanData = await LoanDataRepo.FindById(id).ConfigureAwait(false);
             if (loanData == null)
             {
                 return NotFound();
@@ -129,15 +129,14 @@ namespace LoanCalculatorWebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var loanData = await _context.LoanData.FindAsync(id).ConfigureAwait(false);
-            _context.LoanData.Remove(loanData);
-            await _context.SaveChangesAsync().ConfigureAwait(false);
+            var loanData = await LoanDataRepo.FindById(id).ConfigureAwait(false);
+            await LoanDataRepo.Delete(loanData).ConfigureAwait(false);
             return RedirectToAction(nameof(Index));
         }
 
         public IActionResult Snowball() {
 
-            var sortedLoanData = from row in _context.LoanData.AsEnumerable() orderby row.LoanAmount select row;
+            var sortedLoanData = from row in LoanDataRepo.List orderby row.LoanAmount select row;
 
             return View(sortedLoanData);
         }
@@ -145,14 +144,14 @@ namespace LoanCalculatorWebApp.Controllers
         public IActionResult Avalanche()
         {
 
-            var sortedLoanData = from row in _context.LoanData.AsEnumerable() orderby row.LoanAmount descending select row;
+            var sortedLoanData = from row in LoanDataRepo.List orderby row.LoanAmount descending select row;
 
             return View(sortedLoanData);
         }
 
         private bool LoanDataExists(Guid id)
         {
-            return _context.LoanData.Any(e => e.Id == id);
+            return LoanDataRepo.List.Any(e => e.Id == id);
         }
 
         private static void CalculateLoanData(LoanData loanData) {
