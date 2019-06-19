@@ -1,5 +1,3 @@
-using System;
-
 namespace LoanCalculatorWebApp.Models
 {
     public class ErrorViewModel
