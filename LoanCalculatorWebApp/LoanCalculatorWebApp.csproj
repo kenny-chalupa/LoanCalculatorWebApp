@@ -4,10 +4,13 @@
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
     <StartupObject>LoanCalculatorWebApp.Program</StartupObject>
+    <ApplicationInsightsResourceId>/subscriptions/f8d6237e-9d92-402e-a8ad-24acb86d26df/resourcegroups/LoanCalculatorWebAPP-rg/providers/microsoft.insights/components/LoanCalculatorWebAPP</ApplicationInsightsResourceId>
+    <ApplicationInsightsAnnotationResourceId>/subscriptions/f8d6237e-9d92-402e-a8ad-24acb86d26df/resourcegroups/LoanCalculatorWebAPP-rg/providers/microsoft.insights/components/LoanCalculatorWebAPP</ApplicationInsightsAnnotationResourceId>
   </PropertyGroup>
 
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.5.1" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.2" />
@@ -17,6 +20,11 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services" />
   </ItemGroup>
 
 </Project>
