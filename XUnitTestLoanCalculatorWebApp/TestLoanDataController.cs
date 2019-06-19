@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace XUnitTestLoanCalculatorWebApp
 {
@@ -115,8 +116,35 @@ namespace XUnitTestLoanCalculatorWebApp
             var model = Assert.IsAssignableFrom<IEnumerable<LoanData>>(viewResult.ViewData.Model);
         }
 
+        //[Fact]
+        //public async Task TestLoanDataCreate()
+        //{
+        //    var testLoanData = getTestLoanData();
+
+        //    foreach (var testdata in testLoanData)
+        //    {
+        //        await loanDataController.Create(testdata).ConfigureAwait(false);
+        //    }
+
+        //    foreach (var testdata in testLoanData)
+        //    {
+        //        var loanDataFromRepo = loanDataController.LoanDataRepo.FindById(testdata.Id);
+        //        Assert.Equal(testdata.Id.ToString(), loanDataFromRepo.Id.ToString());
+        //    }
+            
+
+        //}
+
         [Fact]
-        public void TesLoanDataEdit() { }
+        public void TesLoanDataEdit()
+        {
+            var testData = getTestLoanData();
+            var originalLoanData = testData[0];
+
+            originalLoanData.LoanAmount = 5000;
+
+            loanDataController.Edit(originalLoanData.Id, originalLoanData);
+        }
 
         [Fact]
         public void TestLoanDataDelete() { }

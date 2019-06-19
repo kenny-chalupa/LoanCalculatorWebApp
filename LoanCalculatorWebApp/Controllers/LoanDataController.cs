@@ -6,13 +6,14 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using LoanCalculatorWebApp.Models;
 using LoanCalculatorWebApp.Data;
+using Microsoft.AspNetCore.Http;
 
 namespace LoanCalculatorWebApp.Controllers
 {
     public class LoanDataController : Controller
     {
 
-        IRepository<LoanData> LoanDataRepo;
+        public IRepository<LoanData> LoanDataRepo;
 
         public LoanDataController(IRepository<LoanData> repository)
         {
@@ -53,7 +54,8 @@ namespace LoanCalculatorWebApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                loanData.Id = Guid.NewGuid();
+                if (loanData.Id == null)
+                    loanData.Id = Guid.NewGuid();
                 CalculateLoanData(loanData);
                 await LoanDataRepo.Add(loanData).ConfigureAwait(false);
                 return RedirectToAction(nameof(Index));
@@ -134,7 +136,8 @@ namespace LoanCalculatorWebApp.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        public IActionResult Snowball() {
+        public IActionResult Snowball()
+        {
 
             var sortedLoanData = from row in LoanDataRepo.List orderby row.LoanAmount select row;
 
@@ -149,12 +152,37 @@ namespace LoanCalculatorWebApp.Controllers
             return View(sortedLoanData);
         }
 
+
+        public IActionResult UserSortOptions()
+        {
+            var userSelectedSort = new UserSelectedSort();
+            return View(userSelectedSort);
+        }
+
+        [HttpPost]
+        public IActionResult UserSortedOptionsResults(UserSelectedSort userSelectedSort)
+        {
+            var loanDataList = LoanDataRepo.List;
+
+
+            if (userSelectedSort.SortOrder == SortOrder.Ascending.ToString())
+            {
+                loanDataList = LoanDataSorter.SortAscending(userSelectedSort.Property, loanDataList);
+            }
+            else
+            {
+                loanDataList = LoanDataSorter.SortDescending(userSelectedSort.Property, loanDataList);
+            }
+            return View(loanDataList);
+        }
+
         private bool LoanDataExists(Guid id)
         {
             return LoanDataRepo.List.Any(e => e.Id == id);
         }
 
-        private static void CalculateLoanData(LoanData loanData) {
+        private static void CalculateLoanData(LoanData loanData)
+        {
             loanData.SetTotalCost();
             loanData.SetMonthlyBill();
         }

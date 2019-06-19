@@ -19,9 +19,4 @@
     </PackageReference>
   </ItemGroup>
 
-
-  <ItemGroup>
-    <Folder Include="Views\Loan\" />
-  </ItemGroup>
-
 </Project>
